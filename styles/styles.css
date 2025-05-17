@@ -210,6 +210,11 @@ main {
     color: #23272f;
 }
 
+.task-checkbox {
+    margin-right: 0.8rem;
+    accent-color: var(--accent);
+}
+
 footer {
     text-align: center;
     color: var(--muted);
