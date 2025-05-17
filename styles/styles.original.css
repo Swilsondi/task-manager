@@ -1,0 +1,78 @@
+/* ...existing code from your styles.css... */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    background-color: rgb(51, 46, 46);
+    scroll-behavior: smooth;
+
+}
+/* Reset margin and padding for the body and html */
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Ensures consistent box model */
+}
+
+
+.navbar > ol {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    flex: 1;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem;
+    font-weight: lighter;
+    cursor: pointer;
+    transition: color 0.2s;
+    font-family: 'Oi', 'Poiret One', sans-serif;
+    background: linear-gradient(90deg, #ff8a00, #e52e71);
+    height: 2rem;
+    align-items: center;
+}
+
+li:hover {
+    color: #38c046;
+}
+.user-tasks {
+    display: flex;
+    gap: 4rem;
+    flex-wrap: no-wrap;
+    justify-content: center;
+    margin-top: 3rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    align-items: center;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+.tasks {
+    font-size: large;
+    color: #fff;
+    font-weight: bold;
+    gap: 4rem;
+    padding: 5rem;
+    max-width: 20rem;
+    max-height: 25rem;
+    flex-direction: column;
+    align-items: center;
+}
+li {
+     list-style-type: circle;
+     margin: 1rem;
+     align-items: center;
+}
+input {
+    background: transparent;
+    border: none;
+}
+
+.tasks:hover {
+    box-shadow: 0 4px 24px #7fd15faa;
+    transform: translateY(-6px) scale(1.03);
+}

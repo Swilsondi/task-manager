@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oi&family=Poiret+One&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <span class="logo">Task<span>Manager</span></span>
+            <ul class="navigation">
+                <li class="active">Home</li>
+                <li>About</li>
+                <li>Tasks</li>
+                <li>Settings</li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="task-entry">
+            <input type="text" id="new-task-input" placeholder="Add a new task..." autocomplete="off">
+            <button id="add-task-btn" aria-label="Add Task">+</button>
+        </section>
+        <section class="tasks-board">
+            <div class="tasks-column active-tasks">
+                <h2>Active</h2>
+                <ul id="active-tasks-list" class="task-list"></ul>
+            </div>
+            <div class="tasks-column completed-tasks">
+                <h2>Completed</h2>
+                <ul id="completed-tasks-list" class="task-list"></ul>
+            </div>
+            <div class="tasks-column deleted-tasks">
+                <h2>Deleted</h2>
+                <ul id="deleted-tasks-list" class="task-list"></ul>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>Task Manager &copy; 2025</p>
+    </footer>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
