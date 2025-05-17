@@ -23,6 +23,7 @@ taskButton.addEventListener('click', function(event) {
     taskField.value = "";
     console.log("Click happened");
     addTaskUi(task);
+    renderTasks();
     return;
 });
 
@@ -30,8 +31,9 @@ taskField.addEventListener('keypress', function(e) {
     if (e.key === 'Enter'){
     addTask(taskField.value);
     taskField.value = "";  
-    addTaskUi(task);
     console.log("Press event happened");
+    addTaskUi(task);
+    renderTasks();
     return;
     } else {
         return;
@@ -55,7 +57,32 @@ function addTaskUi(task){
     active.append(taskElement);
     console.log("Displaying active tasks");
 }
+// TODO: Understand this 
+function renderTasks() {
+    const activeTasksList = document.querySelector('#active-tasks-list');
+    activeTasksList.innerHTML = '';
+    newToDo.forEach((task, idx) => {
+        const li = document.createElement('li');
+        li.className = 'task-item';
 
+        // Create checkbox
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'task-checkbox';
+        checkbox.addEventListener('change', function() {
+            // Here you can handle marking as completed
+            // For example: move to completed tasks array
+        });
+
+        // Task text
+        const span = document.createElement('span');
+        span.textContent = task;
+
+        li.append(checkbox);
+        li.append(span);
+        activeTasksList.append(li);
+    });
+}
 
 
 
