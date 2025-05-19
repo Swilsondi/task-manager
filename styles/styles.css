@@ -223,3 +223,55 @@ footer {
     background: transparent;
     margin-top: auto;
 }
+
+.task-btn.delete-btn {
+    background: none;
+    border: none;
+    color: #e52e71;
+    font-size: 1.2rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s;
+}
+.task-btn.delete-btn:hover {
+    background: #e52e71;
+    color: #fff;
+}
+
+.task-btn.complete-btn {
+    background: none;
+    border: none;
+    color: #38c046;
+    font-size: 1.3rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s;
+}
+.task-btn.complete-btn:hover {
+    background: #38c046;
+    color: #23272f;
+}
+.task-btn.delete-btn {
+    background: none;
+    border: none;
+    color: #e52e71;
+    font-size: 1.2rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s;
+}
+.task-btn.delete-btn:hover {
+    background: #e52e71;
+    color: #fff;
+}
+
+.task-item-deleted {
+    align-items: center;
+    justify-content: center;
+    color: #e52e71;
+    font-weight: bold;
+    margin-left: 2rem;
+}

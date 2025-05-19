@@ -1,8 +1,15 @@
 // Get references to the "Add Task" button and the input field for new tasks
 const taskButton = document.querySelector('#add-task-btn');
-const taskField = document.querySelector('#new-task-input');
+const taskField = document.querySelector('#new-task-input'); 
+// The array that holds all active tasks
+const newToDo = [];
+// The array that holds all completed tasks
+const completedTasks = [];
+// This array holds deleted tasks
+const deletedTasks = [];
+const deletedList = document.querySelector('#deleted-tasks-list');
 
-// --------------------
+
 // Load tasks from localStorage on page load
 function loadTasks() {
     // Retrieve the 'tasks' array from localStorage and parse it from JSON
@@ -29,7 +36,6 @@ taskButton.addEventListener('click', function(event) {
     addTask(taskField.value); // Add the task from the input field to the array
     taskField.value = "";     // Clear the input field
     console.log("Click happened"); // Log for debugging
-    // addTaskUi(task);          // (Redundant) Adds the task to the UI as a <p> (not needed if using renderTasks)
     renderTasks();            // Update the UI to show all tasks
     saveTasks();              // Save the updated tasks array to localStorage
     return;                   // End the function
@@ -43,7 +49,6 @@ taskField.addEventListener('keypress', function(e) {
         addTask(taskField.value); // Add the task from the input field to the array
         taskField.value = "";     // Clear the input field
         console.log("Press event happened"); // Log for debugging
-        addTaskUi(task);          // (Redundant) Adds the task to the UI as a <p> (not needed if using renderTasks)
         renderTasks();            // Update the UI to show all tasks
         saveTasks();              // Save the updated tasks array to localStorage
         return;
@@ -53,62 +58,85 @@ taskField.addEventListener('keypress', function(e) {
 });
 
 // --------------------
-// The array that holds all active tasks
-const newToDo = [];
-
-// --------------------
 // Function to add a task to the array
 function addTask(task) {
     newToDo.push(task); // Add the new task string to the array
     console.log("Task added"); // Log for debugging
-    addTaskUi(task);          // (Redundant) Adds the task to the UI as a <p> (not needed if using renderTasks)
+    renderTasks(); 
     console.log(newToDo);     // Log the current array for debugging
     return;
 }
 
 // --------------------
-// Function to add a task to the UI as a <p> element (not used by renderTasks)
-// This is redundant if you use renderTasks for all UI updates
-function addTaskUi(task){
-    const active = document.querySelector('.active-tasks'); // Get the active tasks column
-    const taskElement = document.createElement('p');        // Create a new <p> element
-    taskElement.textContent = task;                         // Set its text to the task
-    active.append(taskElement);                             // Add it to the active tasks column
-    console.log("Displaying active tasks");                 // Log for debugging
-}
-
-// --------------------
 // Function to render all tasks in the active tasks list as <li> elements with checkboxes
 function renderTasks() {
-    const activeTasksList = document.querySelector('#active-tasks-list'); // Get the <ul> for active tasks
-    activeTasksList.innerHTML = ''; // Clear the current list
+    const activeTasksList = document.querySelector('#active-tasks-list');
+    activeTasksList.innerHTML = '';
 
-    // For each task in the array, create a list item with a checkbox and the task text
     newToDo.forEach((task, idx) => {
-        const li = document.createElement('li');      // Create a new <li> element
-        li.className = 'task-item';                   // Add a class for styling
+        const li = document.createElement('li');
+        li.className = 'task-item';
 
-        // Create a checkbox for marking the task as completed
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.className = 'task-checkbox';
-        checkbox.addEventListener('change', function() {
-            // Placeholder: Here you can handle marking as completed
-            // For example: move to completed tasks array
+        // Font Awesome checkmark button for completion
+        const completeBtn = document.createElement('button');
+        completeBtn.className = 'task-btn complete-btn';
+        completeBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+        completeBtn.title = 'Mark as completed';
+        completeBtn.addEventListener('click', function() {
+            newToDo.splice(idx, 1);
+            saveTasks();
+            renderTasks();
+            completedTasks.push(task);
+            completedTaskRenderUi(task);
         });
 
-        // Create a <span> to hold the task text
+        // Task text
         const span = document.createElement('span');
         span.textContent = task;
 
-        // Add the checkbox and text to the list item
-        li.append(checkbox);
-        li.append(span);
+        // Delete button (Font Awesome trash can)
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'task-btn delete-btn';
+        deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+        deleteBtn.title = 'Delete task';
+        deleteBtn.addEventListener('click', function() {
+            newToDo.splice(idx, 1);
+            saveTasks();
+            renderTasks();
+            deletedTasks.push(task);
+            deletedTasksRenderUi(task);
+            console.log(deletedTasks);
+            recoverDeleted(task);
 
-        // Add the list item to the active tasks list in the DOM
+        });
+
+        // Add elements to the list item
+        li.append(completeBtn, span, deleteBtn);
         activeTasksList.append(li);
     });
 }
 
+function completedTaskRenderUi(task) {
+    const completed = document.querySelector("#completed-tasks-list");
+    const li = document.createElement('li');
+    li.className = 'task-item completed';
+    const span = document.createElement('span');
+    span.textContent = task;
+    li.append(span);
+    completed.append(li);
+}
 
+function deletedTasksRenderUi(task) {
+    const li = document.createElement('li');
+    li.className = 'task-item-deleted';
+    const span = document.createElement('span');
+    span.textContent = task;
+    li.append(span);
+    deletedList.append(li);
+}
 
+function recoverDeleted(task){
+    //take the deleted task and place it back in the active list
+    const recoverButton =  document.createElement('button');
+    
+}
