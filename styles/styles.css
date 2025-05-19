@@ -1,4 +1,5 @@
 :root {
+    /* CSS variables for easy theme changes and consistency */
     --primary: #ff8a00;
     --secondary: #e52e71;
     --bg: #23272f;
@@ -12,12 +13,14 @@
     --font-logo: 'Oi', cursive;
 }
 
+/* Reset box model and remove default margin/padding */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+/* Set base styles for html and body */
 html, body {
     background: var(--bg);
     color: var(--text);
@@ -31,6 +34,7 @@ body {
     min-height: 100vh;
 }
 
+/* Navigation bar styles */
 .navbar {
     background: linear-gradient(90deg, var(--primary), var(--secondary));
     padding: 0.5rem 0;
@@ -57,6 +61,7 @@ body {
     color: var(--accent);
 }
 
+/* Navigation links */
 .navigation {
     display: flex;
     gap: 2rem;
@@ -75,6 +80,7 @@ body {
     color: var(--accent);
 }
 
+/* Main content layout */
 main {
     flex: 1;
     display: flex;
@@ -83,6 +89,7 @@ main {
     padding: 2rem 1rem 1rem 1rem;
 }
 
+/* Task entry (input + button) */
 .task-entry {
     display: flex;
     gap: 1rem;
@@ -127,6 +134,7 @@ main {
     transform: scale(1.08);
 }
 
+/* Task board columns */
 .tasks-board {
     display: flex;
     gap: 2rem;
@@ -158,6 +166,7 @@ main {
     letter-spacing: 1px;
 }
 
+/* Task lists */
 .task-list {
     width: 100%;
     list-style: none;
@@ -167,6 +176,7 @@ main {
     min-height: 2rem;
 }
 
+/* Task item styles */
 .task-item {
     background: #23272f;
     border-radius: var(--radius);
@@ -180,17 +190,14 @@ main {
     color: var(--text);
 }
 
+/* Completed task style */
 .task-item.completed {
     text-decoration: line-through;
     color: var(--muted);
     background: #23272f88;
 }
 
-.task-actions {
-    display: flex;
-    gap: 0.5rem;
-}
-
+/* Task action buttons */
 .task-btn {
     background: none;
     border: none;
@@ -210,11 +217,43 @@ main {
     color: #23272f;
 }
 
-.task-checkbox {
-    margin-right: 0.8rem;
-    accent-color: var(--accent);
+/* Specific button styles for delete, complete, recover */
+.task-btn.delete-btn {
+    color: #e52e71;
+    margin-left: 0.5rem;
+}
+.task-btn.delete-btn:hover {
+    background: #e52e71;
+    color: #fff;
+}
+.task-btn.complete-btn {
+    color: #38c046;
+    font-size: 1.3rem;
+    margin-right: 0.5rem;
+}
+.task-btn.complete-btn:hover {
+    background: #38c046;
+    color: #23272f;
+}
+.task-btn.recover-btn {
+    color: #38c046;
+    margin-right: 0.5rem;
+}
+.task-btn.recover-btn:hover {
+    background: #38c046;
+    color: #23272f;
 }
 
+/* Deleted task style */
+.task-item-deleted {
+    align-items: center;
+    justify-content: center;
+    color: #e52e71;
+    font-weight: bold;
+    margin-left: 2rem;
+}
+
+/* Footer */
 footer {
     text-align: center;
     color: var(--muted);
@@ -222,56 +261,4 @@ footer {
     font-size: 1rem;
     background: transparent;
     margin-top: auto;
-}
-
-.task-btn.delete-btn {
-    background: none;
-    border: none;
-    color: #e52e71;
-    font-size: 1.2rem;
-    margin-left: 0.5rem;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background 0.2s, color 0.2s;
-}
-.task-btn.delete-btn:hover {
-    background: #e52e71;
-    color: #fff;
-}
-
-.task-btn.complete-btn {
-    background: none;
-    border: none;
-    color: #38c046;
-    font-size: 1.3rem;
-    margin-right: 0.5rem;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background 0.2s, color 0.2s;
-}
-.task-btn.complete-btn:hover {
-    background: #38c046;
-    color: #23272f;
-}
-.task-btn.delete-btn {
-    background: none;
-    border: none;
-    color: #e52e71;
-    font-size: 1.2rem;
-    margin-left: 0.5rem;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background 0.2s, color 0.2s;
-}
-.task-btn.delete-btn:hover {
-    background: #e52e71;
-    color: #fff;
-}
-
-.task-item-deleted {
-    align-items: center;
-    justify-content: center;
-    color: #e52e71;
-    font-weight: bold;
-    margin-left: 2rem;
 }

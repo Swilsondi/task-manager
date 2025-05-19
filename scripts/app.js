@@ -1,15 +1,19 @@
+// --- DOM ELEMENT REFERENCES ---
 // Get references to the "Add Task" button and the input field for new tasks
-const taskButton = document.querySelector('#add-task-btn');
-const taskField = document.querySelector('#new-task-input'); 
+const taskButton = document.querySelector('#add-task-btn'); // Button to add a new task
+const taskField = document.querySelector('#new-task-input'); // Input field for entering a new task
+
+// --- DATA ARRAYS ---
 // The array that holds all active tasks
 const newToDo = [];
 // The array that holds all completed tasks
 const completedTasks = [];
 // This array holds deleted tasks
 const deletedTasks = [];
+// Reference to the deleted tasks list in the DOM (not always needed, see recoverDeleted)
 const deletedList = document.querySelector('#deleted-tasks-list');
 
-
+// --- LOCAL STORAGE FUNCTIONS ---
 // Load tasks from localStorage on page load
 function loadTasks() {
     // Retrieve the 'tasks' array from localStorage and parse it from JSON
@@ -19,17 +23,34 @@ function loadTasks() {
         newToDo.length = 0;      // Clear the current array (preserves reference)
         newToDo.push(...saved);  // Add all saved tasks to the array
     }
-    renderTasks(); // Update the UI to show the loaded tasks
+
+    const completed = JSON.parse(localStorage.getItem('completedTasks'));
+    if (Array.isArray(completed)) {
+        completedTasks.length = 0;
+        completedTasks.push(...completed);
+    }
+
+    const deleted = JSON.parse(localStorage.getItem('deletedTasks'));
+    if (Array.isArray(deleted)) {
+        deletedTasks.length = 0;
+        deletedTasks.push(...deleted);
+    }
+
+    renderTasks();
+    recoverDeleted();
+    // Add a call to render completed tasks if you have a function for it
+    completedTasks.forEach(completedTaskRenderUi);
 }
 
-// --------------------
 // Save tasks to localStorage
 function saveTasks() {
     // Convert the newToDo array to a JSON string and store it in localStorage
     localStorage.setItem('tasks', JSON.stringify(newToDo));
+    localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+    localStorage.setItem('deletedTasks', JSON.stringify(deletedTasks));
 }
 
-// --------------------
+// --- EVENT LISTENERS ---
 // Event listener for the "Add Task" button click
 taskButton.addEventListener('click', function(event) {
     event.preventDefault(); // Prevent form submission or page reload
@@ -41,7 +62,6 @@ taskButton.addEventListener('click', function(event) {
     return;                   // End the function
 });
 
-// --------------------
 // Event listener for pressing "Enter" in the input field
 taskField.addEventListener('keypress', function(e) {
     if (e.key === 'Enter'){
@@ -57,7 +77,7 @@ taskField.addEventListener('keypress', function(e) {
     }
 });
 
-// --------------------
+// --- CORE LOGIC FUNCTIONS ---
 // Function to add a task to the array
 function addTask(task) {
     newToDo.push(task); // Add the new task string to the array
@@ -67,11 +87,10 @@ function addTask(task) {
     return;
 }
 
-// --------------------
-// Function to render all tasks in the active tasks list as <li> elements with checkboxes
+// Function to render all tasks in the active tasks list as <li> elements with action buttons
 function renderTasks() {
     const activeTasksList = document.querySelector('#active-tasks-list');
-    activeTasksList.innerHTML = '';
+    activeTasksList.innerHTML = ''; // Clear the current list
 
     newToDo.forEach((task, idx) => {
         const li = document.createElement('li');
@@ -83,11 +102,11 @@ function renderTasks() {
         completeBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
         completeBtn.title = 'Mark as completed';
         completeBtn.addEventListener('click', function() {
-            newToDo.splice(idx, 1);
+            newToDo.splice(idx, 1); // Remove from active tasks
             saveTasks();
             renderTasks();
-            completedTasks.push(task);
-            completedTaskRenderUi(task);
+            completedTasks.push(task); // Add to completed tasks array
+            completedTaskRenderUi(task); // Render in completed column
         });
 
         // Task text
@@ -100,14 +119,12 @@ function renderTasks() {
         deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
         deleteBtn.title = 'Delete task';
         deleteBtn.addEventListener('click', function() {
-            newToDo.splice(idx, 1);
+            newToDo.splice(idx, 1); // Remove from active tasks
             saveTasks();
             renderTasks();
-            deletedTasks.push(task);
-            deletedTasksRenderUi(task);
-            console.log(deletedTasks);
-            recoverDeleted(task);
-
+            deletedTasks.push(task); // Add to deleted tasks array
+            recoverDeleted(); // Render in deleted column
+            console.log(`Your deleted task array is: ${deletedTasks}`);
         });
 
         // Add elements to the list item
@@ -116,6 +133,7 @@ function renderTasks() {
     });
 }
 
+// Function to render a completed task in the completed tasks list
 function completedTaskRenderUi(task) {
     const completed = document.querySelector("#completed-tasks-list");
     const li = document.createElement('li');
@@ -126,17 +144,39 @@ function completedTaskRenderUi(task) {
     completed.append(li);
 }
 
-function deletedTasksRenderUi(task) {
-    const li = document.createElement('li');
-    li.className = 'task-item-deleted';
-    const span = document.createElement('span');
-    span.textContent = task;
-    li.append(span);
-    deletedList.append(li);
+// Function to render deleted tasks and allow recovery
+function recoverDeleted() {
+    const deletedTasksList = document.querySelector('#deleted-tasks-list');
+    deletedTasksList.innerHTML = ''; // Clear the deleted tasks list UI
+
+    deletedTasks.forEach((task, idx) => {
+        const li = document.createElement('li');
+        li.className = 'task-item-deleted';
+
+        // Font Awesome checkmark button for recovery
+        const recoverButton = document.createElement('button');
+        recoverButton.className = 'task-btn recover-btn';
+        recoverButton.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+        recoverButton.title = 'Recover deleted task';
+
+        // When clicked, move task back to active, update arrays and UI
+        recoverButton.addEventListener('click', function() {
+            newToDo.push(task); // Add back to active tasks
+            deletedTasks.splice(idx, 1); // Remove from deleted tasks
+            saveTasks();
+            renderTasks();
+            recoverDeleted(); // Re-render deleted tasks list
+            console.log(`Task added back to active tasks`);
+        });
+
+        // Task text
+        const span = document.createElement('span');
+        span.textContent = task;
+
+        li.append(recoverButton, span);
+        deletedTasksList.append(li);
+    });
 }
 
-function recoverDeleted(task){
-    //take the deleted task and place it back in the active list
-    const recoverButton =  document.createElement('button');
-    
-}
+// Initial load of tasks from localStorage
+loadTasks();

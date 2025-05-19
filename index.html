@@ -1,19 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html> <!-- Declares the document type and version of HTML -->
+<html lang="en"> <!-- Root element, sets language for accessibility and SEO -->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Manager</title>
-    <link rel="stylesheet" href="styles/styles.css">
+    <meta charset="UTF-8"> <!-- Character encoding for the document -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive design for mobile -->
+    <title>Task Manager</title> <!-- Title shown in browser tab -->
+    <link rel="stylesheet" href="styles/styles.css"> <!-- Link to your main CSS file -->
+    <!-- Preconnect improves font loading performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Google Fonts for custom typography -->
     <link href="https://fonts.googleapis.com/css2?family=Oi&family=Poiret+One&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Font Awesome for icons (checkmarks, trash cans, etc.) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+    <!-- Navigation bar at the top -->
     <nav class="navbar">
         <div class="container">
-            <span class="logo">Task<span>Manager</span></span>
+            <span class="logo">Task<span>Manager</span></span> <!-- Logo with accent color -->
             <ul class="navigation">
                 <li class="active">Home</li>
                 <li>About</li>
@@ -24,28 +28,32 @@
     </nav>
 
     <main>
+        <!-- Section for entering new tasks -->
         <section class="task-entry">
             <input type="text" id="new-task-input" placeholder="Add a new task..." autocomplete="off">
+            <!-- Button to add a new task -->
             <button id="add-task-btn" aria-label="Add Task">+</button>
         </section>
+        <!-- Board with three columns: Active, Completed, Deleted -->
         <section class="tasks-board">
             <div class="tasks-column active-tasks">
                 <h2>Active</h2>
-                <ul id="active-tasks-list" class="task-list"></ul>
+                <ul id="active-tasks-list" class="task-list"></ul> <!-- JS renders active tasks here -->
             </div>
             <div class="tasks-column completed-tasks">
                 <h2>Completed</h2>
-                <ul id="completed-tasks-list" class="task-list"></ul>
+                <ul id="completed-tasks-list" class="task-list"></ul> <!-- JS renders completed tasks here -->
             </div>
             <div class="tasks-column deleted-tasks">
                 <h2>Deleted</h2>
-                <ul id="deleted-tasks-list" class="task-list"></ul>
+                <ul id="deleted-tasks-list" class="task-list"></ul> <!-- JS renders deleted tasks here -->
             </div>
         </section>
     </main>
     <footer>
         <p>Task Manager &copy; 2025</p>
     </footer>
+    <!-- Main JavaScript file -->
     <script src="scripts/app.js"></script>
 </body>
 </html>
